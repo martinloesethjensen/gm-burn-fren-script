@@ -2,7 +2,7 @@ use std::fs;
 
 use gm::runtime_types::{gm_chain_runtime::Call, orml_currencies::module::Call as CurrenciesCall};
 
-use sp_core::{sr25519, Pair};
+use sp_core::Pair;
 use structopt::StructOpt;
 use subxt::{tx::PairSigner, OnlineClient, PolkadotConfig};
 
@@ -18,9 +18,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mnemonic_phrase =
         fs::read_to_string(args.seed_file).expect("Should read from seed phrase file.");
 
-    let pair = sr25519::Pair::from_phrase(mnemonic_phrase.as_str(), None).unwrap();
+    let pair = sp_core::sr25519::Pair::from_phrase(mnemonic_phrase.as_str(), None).unwrap();
 
-    let signer = PairSigner::<PolkadotConfig, sr25519::Pair>::new(pair.0);
+    let signer = PairSigner::<PolkadotConfig, sp_core::sr25519::Pair>::new(pair.0);
 
     let api = OnlineClient::<PolkadotConfig>::from_url("wss://leemo.gmordie.com:443").await?;
 
